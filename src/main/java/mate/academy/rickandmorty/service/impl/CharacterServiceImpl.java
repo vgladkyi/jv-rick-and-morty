@@ -9,8 +9,8 @@ import mate.academy.rickandmorty.dto.internal.CharacterDto;
 import mate.academy.rickandmorty.mapper.CharacterMapper;
 import mate.academy.rickandmorty.model.Character;
 import mate.academy.rickandmorty.repository.CharacterRepository;
+import mate.academy.rickandmorty.service.CharacterClient;
 import mate.academy.rickandmorty.service.CharacterService;
-import mate.academy.rickandmorty.service.CharactersClient;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class CharacterServiceImpl implements CharacterService {
     private static Long maxId;
     private static boolean isDbUpdated;
-    private final CharactersClient client;
+    private final CharacterClient client;
     private final CharacterMapper mapper;
     private final CharacterRepository repository;
 

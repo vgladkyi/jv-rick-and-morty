@@ -10,12 +10,12 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.rickandmorty.dto.external.ApiResponseDataDto;
 import mate.academy.rickandmorty.dto.external.CharacterResponseDto;
-import mate.academy.rickandmorty.service.CharactersClient;
+import mate.academy.rickandmorty.service.CharacterClient;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CharactersClientImpl implements CharactersClient {
+public class CharacterClientImpl implements CharacterClient {
     private static final String BASE_URL = "https://rickandmortyapi.com/api/character";
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient = HttpClient.newHttpClient();
