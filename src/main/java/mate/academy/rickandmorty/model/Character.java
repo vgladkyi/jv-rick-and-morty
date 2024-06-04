@@ -21,6 +21,3 @@ public class Character {
     private String status;
     private String gender;
 }
-
-
-

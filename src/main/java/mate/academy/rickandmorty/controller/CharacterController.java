@@ -29,7 +29,4 @@ public class CharacterController {
     public CharacterDto getRandomCharacter() {
         return service.getRandom();
     }
-
 }
-
-

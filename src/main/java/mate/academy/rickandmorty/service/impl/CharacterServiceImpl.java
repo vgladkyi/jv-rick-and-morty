@@ -1,13 +1,11 @@
 package mate.academy.rickandmorty.service.impl;
 
+import jakarta.annotation.PostConstruct;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.rickandmorty.dto.external.CharacterResponseDto;
 import mate.academy.rickandmorty.dto.internal.CharacterDto;
 import mate.academy.rickandmorty.mapper.CharacterMapper;
-import mate.academy.rickandmorty.model.Character;
 import mate.academy.rickandmorty.repository.CharacterRepository;
 import mate.academy.rickandmorty.service.CharacterClient;
 import mate.academy.rickandmorty.service.CharacterService;
@@ -16,42 +14,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CharacterServiceImpl implements CharacterService {
-    private static Long maxId;
-    private static boolean isDbUpdated;
     private final CharacterClient client;
     private final CharacterMapper mapper;
     private final CharacterRepository repository;
 
     @Override
     public CharacterDto getRandom() {
-        if (!isDbUpdated) {
-            getDataFromApi();
-        }
-        Random random = new Random();
-        long randomLong = random.nextLong(maxId + 1);
-        Character character = repository.findById(randomLong)
-                .orElseThrow(() -> new RuntimeException("Error while retrieving character"));
-        return mapper.toDto(character);
+        return mapper.toDto(repository.getRandom());
     }
 
     @Override
     public List<CharacterDto> getAllByName(String name) {
-        if (!isDbUpdated) {
-            getDataFromApi();
-        }
-        return repository.findCharactersByNameContainsIgnoreCase(name)
-                .stream()
-                .map(mapper::toDto)
-                .toList();
+        return mapper.toCharacterDtoList(repository.findCharactersByNameContainsIgnoreCase(name));
     }
 
+    @PostConstruct
     public void getDataFromApi() {
         List<CharacterResponseDto> charactersList = client.getAllCharacters();
-        repository.saveAll(client.getAllCharacters()
-                .stream()
-                .map(mapper::toModel)
-                .collect(Collectors.toList()));
-        maxId = charactersList.get(charactersList.size() - 1).id();
-        isDbUpdated = true;
+        repository.saveAll(mapper.toModelList(charactersList));
     }
 }
