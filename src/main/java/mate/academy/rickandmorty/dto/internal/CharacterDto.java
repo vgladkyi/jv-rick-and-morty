@@ -6,6 +6,4 @@ public record CharacterDto(
         String name,
         String status,
         String gender) {
-
 }
-

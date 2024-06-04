@@ -47,5 +47,4 @@ public class CharacterClientImpl implements CharacterClient {
             throw new RuntimeException("Error while retrieving characters from API: ", e);
         }
     }
-
 }
