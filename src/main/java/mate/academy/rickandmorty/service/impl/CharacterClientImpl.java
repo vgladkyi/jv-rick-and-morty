@@ -11,18 +11,20 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.rickandmorty.dto.external.ApiResponseDataDto;
 import mate.academy.rickandmorty.dto.external.CharacterResponseDto;
 import mate.academy.rickandmorty.service.CharacterClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CharacterClientImpl implements CharacterClient {
-    private static final String BASE_URL = "https://rickandmortyapi.com/api/character";
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient = HttpClient.newHttpClient();
+    @Value("${rick.and.morty.base.url}")
+    private String baseUrl;
 
     @Override
     public List<CharacterResponseDto> getAllCharacters() {
-        ApiResponseDataDto apiResponseDataDto = getCharacters(BASE_URL);
+        ApiResponseDataDto apiResponseDataDto = getCharacters(baseUrl);
         List<CharacterResponseDto> characters = apiResponseDataDto.results();
         String apiUrl = apiResponseDataDto.info().next();
         while (apiUrl != null) {
